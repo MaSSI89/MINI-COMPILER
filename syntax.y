@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "symtab.h"  // This must contain the SymbolType definition
+#include "symtab.h"  // This must contain the SymbolType definition and getIntValue prototype
 
 int yylex();
 void yyerror(const char *s);
-int line = 1; 
+int line = 1;
 int column = 1;
 
 // Need to declare the symbol table
@@ -48,7 +48,6 @@ SymbolTable* symbol_table;
 %type <str_val> LISTE_VAR
 %type <int_val> VALEURS
 %type <int_val> EXPRESSION TERME FACTEUR
-%type <int_val> OPERATEUR
 
 %left mc_plus mc_moins
 %left mc_mult mc_div
@@ -57,11 +56,12 @@ SymbolTable* symbol_table;
 %%
 program: {
         // Initialize the symbol table at the start
-        printf("PROGRAM COMPILATION STARTED\n");
+
         fflush(stdout);
 
         symbol_table = createSymbolTable();
 } COMMENT mc_ident DATA_SECTION CODE_SECTION mc_endp {
+            printf("PROGRAM COMPILATION STARTED %s\n", $3);
         printf("PROGRAM COMPILATION FINISHED\n");
         fflush(stdout);
         printSymbolTable(symbol_table);
@@ -221,77 +221,22 @@ INSTRUCTIONS: INSTRUCTION | INSTRUCTIONS INSTRUCTION
 COMMENT: mc_comment
 ;
 
-INSTRUCTION: INSTRUCTION_MATH 
-            | INSTRUCTION_AFFECTATION
+INSTRUCTION: INSTRUCTION_AFFECTATION
             | INSTRUCTION_LIRE
             | INSTRUCTION_ECRIRE
             | INSTRUCTION_CONDITION
-            | INSTRUCTION_BOUCLE | COMMENT INSTRUCTION
+            | INSTRUCTION_BOUCLE
+            | COMMENT INSTRUCTION
             | INSTRUCTION COMMENT
             |
 ;
 
-INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION OPERATEUR EXPRESSION mc_pvg {
-        printf("Processing math: %s = expression\n", $1);
-        SymbolEntry* entry = lookupSymbol(symbol_table, $1);
-        if (!entry) {
-            fprintf(stderr, "Error: Undeclared variable '%s' at line %d\n", $1, line);
-        } else {
-            entry->isInitialized = 1;
-            entry->isUsed = 1;
-            
-            int result;
-            switch ($4) {
-                case mc_plus:
-                    result = $3 + $5;
-                    printf("Calculated: %d + %d = %d\n", $3, $5, result);
-                    break;
-                case mc_moins:
-                    result = $3 - $5;
-                    printf("Calculated: %d - %d = %d\n", $3, $5, result);
-                    break;
-                case mc_mult:
-                    result = $3 * $5;
-                    printf("Calculated: %d * %d = %d\n", $3, $5, result);
-                    break;
-                case mc_div:
-                    if ($5 == 0) {
-                        fprintf(stderr, "Error: Division by zero at line %d\n", line);
-                        result = 0;
-                    } else {
-                        result = $3 / $5;
-                        printf("Calculated: %d / %d = %d\n", $3, $5, result);
-                    }
-                    break;
-                default:
-                    result = $3;
-                    printf("Unknown operator, defaulting to first operand: %d\n", result);
-                    break;
-            }
-            
-            switch (entry->type) {
-                case TYPE_INTEGER:
-                    entry->value.intValue = result;
-                    printf("Updated variable '%s' with integer value %d\n", $1, result);
-                    break;
-                case TYPE_FLOAT:
-                    entry->value.floatValue = (float)result;
-                    printf("Updated variable '%s' with float value %f\n", $1, (float)result);
-                    break;
-                default:
-                    fprintf(stderr, "Warning: Unsupported type for math operation on '%s' at line %d\n", $1, line);
-                    break;
-            }
-        }
-    }
-;
-
 INSTRUCTION_AFFECTATION: mc_ident mc_affectation EXPRESSION mc_pvg {
     // Look up the variable in the symbol table
-    printf("Processing assignment: %s = %d\n", $1, $3);
+    // printf("Processing assignment: %s = expression\n", $1);
     SymbolEntry* entry = lookupSymbol(symbol_table, $1);
     if (!entry) {
-        fprintf(stderr, "Error: Undeclared variable '%s' at line %d\n", $1, line);
+        fprintf(stderr, " ----------------- ---- Semantic error at line %d: Undeclared variable '%s'\n", line, $1);
     } else {
         // Update the variable's value based on its type
         entry->isInitialized = 1;
@@ -319,26 +264,33 @@ INSTRUCTION_AFFECTATION: mc_ident mc_affectation EXPRESSION mc_pvg {
         }
     }
 }
-
-EXPRESSION: EXPRESSION OPERATEUR TERME | TERME
 ;
 
-OPERATEUR: mc_plus {
-            $$ = mc_plus;  // Return the token value
-        }
-        | mc_moins {
-            $$ = mc_moins;
-        }
-        | mc_mult {
-            $$ = mc_mult;
-        }
-        | mc_div {
-            $$ = mc_div;
-        }
+EXPRESSION: TERME
+          | EXPRESSION mc_plus TERME {
+              $$ = $1 + $3;
+              printf("Addition: %d + %d = %d\n", $1, $3, $$);
+          }
+          | EXPRESSION mc_moins TERME {
+              $$ = $1 - $3;
+              printf("Subtraction: %d - %d = %d\n", $1, $3, $$);
+          }
 ;
 
-TERME:  FACTEUR 
-        | TERME OPERATEUR FACTEUR 
+TERME: FACTEUR
+     | TERME mc_mult FACTEUR {
+         $$ = $1 * $3;
+         printf("Multiplication: %d * %d = %d\n", $1, $3, $$);
+     }
+     | TERME mc_div FACTEUR {
+         if ($3 == 0) {
+             fprintf(stderr, "------------------ Semantic error at line %d: Division by zero -----------\n", line);
+             $$ = 0;
+         } else {
+             $$ = $1 / $3;
+             printf("Division: %d / %d = %d\n", $1, $3, $$);
+         }
+     }
 ;
 
 FACTEUR: mc_ident { 
@@ -428,10 +380,6 @@ INSTRUCTION_BOUCLE :  INSTRUCTION_BOUCLE BLOC_BOUCLE | BLOC_BOUCLE
 ;
 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp | INSTRUCTION
 ;
-
-
-
-
 
 %%
 void yyerror(const char *s) {

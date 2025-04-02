@@ -287,3 +287,31 @@ const char* getTypeName(SymbolType type) {
             return "UNKNOWN";
     }
 }
+
+// Add this function to your symtab.c
+int getIntValue(SymbolTable* symTab, const char* name) {
+    SymbolEntry* entry = lookupSymbol(symTab, name);
+    if (!entry) {
+        fprintf(stderr, "Warning: Undefined variable '%s' used in expression\n", name);
+        return 0; // Default for undefined variables
+    }
+    
+    if (!entry->isInitialized) {
+        fprintf(stderr, "Warning: Uninitialized variable '%s' used in expression\n", name);
+        return 0;
+    }
+    
+    switch (entry->type) {
+        case TYPE_INTEGER:
+            return entry->value.intValue;
+        case TYPE_FLOAT:
+            return (int)entry->value.floatValue;
+        case TYPE_CHAR:
+            return (int)entry->value.charValue;
+        case TYPE_CONST:
+            return entry->value.intValue;  // Assuming integer constants
+        default:
+            fprintf(stderr, "Warning: Variable '%s' is not a numeric type\n", name);
+            return 0;
+    }
+}

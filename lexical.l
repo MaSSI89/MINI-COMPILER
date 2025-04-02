@@ -85,7 +85,11 @@ commentaire §[^\n]*
 "+" { count_chars(); return mc_plus; }
 "-" { count_chars(); return mc_moins; }
 "*" { count_chars(); return mc_mult; }
-"/" { count_chars(); return mc_div; }
+"/" { 
+    count_chars(); 
+    printf("mot cle /\n");
+    return mc_div; 
+}
 "[" { count_chars(); return mc_crocheto; }
 "]" { count_chars(); return mc_crochetf; }
 "|" { count_chars(); return mc_separateur; }

@@ -1004,41 +1004,45 @@ YY_RULE_SETUP
 case 36:
 YY_RULE_SETUP
 #line 88 "lexical.l"
-{ count_chars(); return mc_div; }
+{ 
+    count_chars(); 
+    printf("mot cle /\n");
+    return mc_div; 
+}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 89 "lexical.l"
+#line 93 "lexical.l"
 { count_chars(); return mc_crocheto; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 90 "lexical.l"
+#line 94 "lexical.l"
 { count_chars(); return mc_crochetf; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 91 "lexical.l"
+#line 95 "lexical.l"
 { count_chars(); return mc_separateur; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 92 "lexical.l"
+#line 96 "lexical.l"
 { count_chars(); return mc_paro; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 97 "lexical.l"
 { count_chars(); return mc_parf; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 95 "lexical.l"
+#line 99 "lexical.l"
 { count_chars(); return mc_adresse; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 97 "lexical.l"
+#line 101 "lexical.l"
 { 
     count_chars(); 
     /* Skip whitespace */
@@ -1047,12 +1051,12 @@ YY_RULE_SETUP
 case 44:
 /* rule 44 can match eol */
 YY_RULE_SETUP
-#line 102 "lexical.l"
+#line 106 "lexical.l"
 {line++; column=1;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 103 "lexical.l"
+#line 107 "lexical.l"
 { 
     count_chars(); 
     fprintf(stderr, "Lexical error: Unrecognized character '%c' at line %d, column %d\n", 
@@ -1061,7 +1065,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 109 "lexical.l"
+#line 113 "lexical.l"
 {
     count_chars();  
     int val = atoi(yytext);
@@ -1075,7 +1079,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 120 "lexical.l"
+#line 124 "lexical.l"
 {
     count_chars();
     lexical_error("Negative integer must be wrapped within parentheses");
@@ -1083,10 +1087,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 125 "lexical.l"
+#line 129 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1090 "lex.yy.c"
+#line 1094 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2091,7 +2095,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 125 "lexical.l"
+#line 129 "lexical.l"
 
  
 void count_chars(void) {

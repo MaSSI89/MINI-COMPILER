@@ -13,6 +13,10 @@ VECTOR: nom1[5,10: INTEGER];
 END
 
 CODE
+ g = 0+4;
+b = 7+ 6;
+a = 8 / 0;
+
 a = 7;
 c = 9;
 b = 89;

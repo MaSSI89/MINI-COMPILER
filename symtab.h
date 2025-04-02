@@ -62,5 +62,6 @@ int insertSymbol(SymbolTable* symTab, const char* name, SymbolType type, int lin
 SymbolEntry* lookupSymbol(SymbolTable* symTab, const char* name);
 void printSymbolTable(SymbolTable* symTab);
 void freeSymbolTable(SymbolTable* symTab);
+int getIntValue(SymbolTable* symTab, const char* name);
 
 #endif /* SYMTAB_H */
