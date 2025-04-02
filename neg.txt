@@ -1,0 +1,49 @@
+§ Déclaration d’une variable simple
+programme
+DATA
+
+§Déclaration d’une variable simple
+INTEGER:a |b;
+FLOAT: b;
+CONST: a="ab";
+VECTOR: nom1[5,10: INTEGER];
+END
+CODE
+a='b';
+b="jfsdigiureygdfg";
+a = (X+7+B) * (5 + 3-(-2))/ (5+ 7+(-9)) ;
+
+READ ("signe de formatage": @idf);
+READ ("&":@idfchar );
+
+DISPLAY ("c’est une chaine de caractères #":idf_string);
+
+IF (Aa != b):
+§Déclaration d’une variable simple
+
+ Cc=E+26;
+    IF (A > 2):
+§ Déclaration d’une variable simple
+
+        READ("roh": @id);
+    END
+ ELSE:
+ DISPLAY ("la valeur de A est $": A);
+END
+
+§ Déclaration d’une variable simple
+
+FOR(i :2 : n)
+    READ("roh": @id); 
+§ Déclaration d’une variable simple
+    
+    FOR (i :2 :n)
+§ Déclaration d’une variable simple
+
+    READ (" %": @A);
+END
+END
+
+END 
+END
+

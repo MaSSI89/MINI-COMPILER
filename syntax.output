@@ -1,0 +1,2003 @@
+Terminals unused in grammar
+
+    mc_start
+    mc_aff
+
+
+State 7 conflicts: 7 shift/reduce
+State 20 conflicts: 7 shift/reduce
+State 21 conflicts: 6 shift/reduce
+State 29 conflicts: 7 shift/reduce
+State 35 conflicts: 7 shift/reduce
+State 36 conflicts: 6 shift/reduce
+State 37 conflicts: 1 shift/reduce, 8 reduce/reduce
+State 42 conflicts: 1 shift/reduce
+State 44 conflicts: 6 shift/reduce, 8 reduce/reduce
+State 56 conflicts: 1 shift/reduce, 8 reduce/reduce
+State 57 conflicts: 1 shift/reduce, 8 reduce/reduce
+State 60 conflicts: 1 shift/reduce
+State 61 conflicts: 8 reduce/reduce
+State 75 conflicts: 4 shift/reduce
+State 118 conflicts: 4 shift/reduce
+State 121 conflicts: 2 shift/reduce
+State 122 conflicts: 2 shift/reduce
+State 123 conflicts: 6 shift/reduce
+State 126 conflicts: 4 shift/reduce, 5 reduce/reduce
+State 131 conflicts: 8 shift/reduce
+State 142 conflicts: 6 shift/reduce
+State 143 conflicts: 6 shift/reduce
+State 145 conflicts: 7 shift/reduce
+State 146 conflicts: 2 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 $@1: ε
+
+    2 program: $@1 COMMENT mc_ident DATA_SECTION CODE_SECTION mc_endp
+
+    3 DATA_SECTION: mc_data DECLARATIONS mc_endp
+
+    4 DECLARATIONS: DEC
+    5             | DECLARATIONS DEC
+    6             | COMMENT DECLARATIONS
+    7             | DECLARATIONS COMMENT
+    8             | ε
+
+    9 $@2: ε
+
+   10 DEC: VAR_TYPE $@2 mc_deuxp LISTE_VAR mc_pvg
+   11    | DEC_CONST
+   12    | DEC_VECTOR
+
+   13 VAR_TYPE: mc_integ
+   14         | mc_float
+   15         | mc_char
+   16         | mc_string
+
+   17 LISTE_VAR: mc_ident
+   18          | mc_ident mc_separateur LISTE_VAR
+
+   19 DEC_CONST: mc_const mc_deuxp mc_ident mc_affectation VALEURS mc_pvg
+
+   20 $@3: ε
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+   22 VALEURS: mc_charactere
+   23        | mc_chaine
+   24        | INT_CONST
+   25        | mc_cst
+
+   26 CODE_SECTION: mc_code INSTRUCTIONS mc_endp
+
+   27 INSTRUCTIONS: INSTRUCTION
+   28             | INSTRUCTIONS INSTRUCTION
+
+   29 COMMENT: mc_comment
+
+   30 INSTRUCTION: INSTRUCTION_MATH
+   31            | INSTRUCTION_AFFECTATION
+   32            | INSTRUCTION_LIRE
+   33            | INSTRUCTION_ECRIRE
+   34            | INSTRUCTION_CONDITION
+   35            | INSTRUCTION_BOUCLE
+   36            | COMMENT INSTRUCTION
+   37            | INSTRUCTION COMMENT
+   38            | ε
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION OPERATEUR EXPRESSION mc_pvg
+
+   40 INSTRUCTION_AFFECTATION: mc_ident mc_affectation EXPRESSION mc_pvg
+
+   41 EXPRESSION: EXPRESSION OPERATEUR TERME
+   42           | TERME
+
+   43 OPERATEUR: mc_plus
+   44          | mc_moins
+   45          | mc_mult
+   46          | mc_div
+
+   47 TERME: FACTEUR
+   48      | TERME OPERATEUR FACTEUR
+
+   49 FACTEUR: mc_ident
+   50        | INT_CONST
+   51        | mc_charactere
+   52        | mc_chaine
+   53        | mc_cst
+   54        | mc_paro EXPRESSION mc_parf
+   55        | mc_paro mc_moins FACTEUR mc_parf
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp mc_adresse mc_ident mc_parf mc_pvg
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine mc_deuxp mc_ident mc_parf mc_pvg
+
+   58 INSTRUCTION_CONDITION: STRUCTURE_CONDITIONELLE
+   59                      | INSTRUCTION_CONDITION STRUCTURE_CONDITIONELLE
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_endp
+
+   62 CONDITION: CONDITION mc_and CONDITION
+   63          | CONDITION mc_or CONDITION
+   64          | EXPRESSION OPERATEUR_COMPAR EXPRESSION
+   65          | EXPRESSION
+
+   66 OPERATEUR_COMPAR: mc_sup
+   67                 | mc_inf
+   68                 | mc_supeg
+   69                 | mc_infeg
+   70                 | mc_egal
+   71                 | mc_diff
+
+   72 INSTRUCTION_BOUCLE: INSTRUCTION_BOUCLE BLOC_BOUCLE
+   73                   | BLOC_BOUCLE
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+   75            | INSTRUCTION
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    mc_code (258) 26
+    mc_data (259) 3
+    mc_start (260)
+    mc_endp (261) 2 3 26 60 61 74
+    mc_aff (262)
+    mc_pvg (263) 10 19 21 39 40 56 57
+    mc_or (264) 63
+    mc_and (265) 62
+    mc_sup (266) 66
+    mc_inf (267) 67
+    mc_supeg (268) 68
+    mc_infeg (269) 69
+    mc_egal (270) 70
+    mc_diff (271) 71
+    mc_plus (272) 43
+    mc_moins (273) 44 55
+    mc_mult (274) 45
+    mc_div (275) 46
+    mc_adresse (276) 56
+    mc_affectation (277) 19 39 40
+    mc_crocheto (278) 21
+    mc_crochetf (279) 21
+    mc_comment (280) 29
+    mc_deuxp (281) 10 19 21 56 57 60 61 74
+    mc_vg (282) 21
+    mc_vector (283) 21
+    mc_paro (284) 54 55 56 57 60 61 74
+    mc_parf (285) 54 55 56 57 60 61 74
+    mc_separateur (286) 18
+    mc_read (287) 56
+    mc_display (288) 57
+    mc_if (289) 60 61
+    mc_else (290) 60
+    mc_for (291) 74
+    INT_CONST <int_val> (292) 24 50
+    mc_ident <str_val> (293) 2 17 18 19 21 39 40 49 56 57 74
+    mc_cst <str_val> (294) 21 25 53 74
+    mc_chaine <str_val> (295) 23 52 56 57
+    mc_charactere <char_val> (296) 22 51
+    mc_integ (297) 13
+    mc_float (298) 14
+    mc_char (299) 15
+    mc_string (300) 16
+    mc_const (301) 19
+
+
+Nonterminals, with rules where they appear
+
+    $accept (47)
+        on left: 0
+    program (48)
+        on left: 2
+        on right: 0
+    $@1 (49)
+        on left: 1
+        on right: 2
+    DATA_SECTION (50)
+        on left: 3
+        on right: 2
+    DECLARATIONS (51)
+        on left: 4 5 6 7 8
+        on right: 3 5 6 7
+    DEC (52)
+        on left: 10 11 12
+        on right: 4 5
+    $@2 (53)
+        on left: 9
+        on right: 10
+    VAR_TYPE <type_val> (54)
+        on left: 13 14 15 16
+        on right: 10 21
+    LISTE_VAR <str_val> (55)
+        on left: 17 18
+        on right: 10 18
+    DEC_CONST (56)
+        on left: 19
+        on right: 11
+    DEC_VECTOR (57)
+        on left: 21
+        on right: 12
+    $@3 (58)
+        on left: 20
+        on right: 21
+    VALEURS <int_val> (59)
+        on left: 22 23 24 25
+        on right: 19
+    CODE_SECTION (60)
+        on left: 26
+        on right: 2
+    INSTRUCTIONS (61)
+        on left: 27 28
+        on right: 26 28 60 61
+    COMMENT (62)
+        on left: 29
+        on right: 2 6 7 36 37
+    INSTRUCTION (63)
+        on left: 30 31 32 33 34 35 36 37 38
+        on right: 27 28 36 37 74 75
+    INSTRUCTION_MATH (64)
+        on left: 39
+        on right: 30
+    INSTRUCTION_AFFECTATION (65)
+        on left: 40
+        on right: 31
+    EXPRESSION <int_val> (66)
+        on left: 41 42
+        on right: 39 40 41 54 64 65
+    OPERATEUR <int_val> (67)
+        on left: 43 44 45 46
+        on right: 39 41 48
+    TERME <int_val> (68)
+        on left: 47 48
+        on right: 41 42 48
+    FACTEUR <int_val> (69)
+        on left: 49 50 51 52 53 54 55
+        on right: 47 48 55
+    INSTRUCTION_LIRE (70)
+        on left: 56
+        on right: 32
+    INSTRUCTION_ECRIRE (71)
+        on left: 57
+        on right: 33
+    INSTRUCTION_CONDITION (72)
+        on left: 58 59
+        on right: 34 59
+    STRUCTURE_CONDITIONELLE (73)
+        on left: 60 61
+        on right: 58 59
+    CONDITION (74)
+        on left: 62 63 64 65
+        on right: 60 61 62 63
+    OPERATEUR_COMPAR (75)
+        on left: 66 67 68 69 70 71
+        on right: 64
+    INSTRUCTION_BOUCLE (76)
+        on left: 72 73
+        on right: 35 72
+    BLOC_BOUCLE (77)
+        on left: 74 75
+        on right: 72 73
+
+
+State 0
+
+    0 $accept: • program $end
+
+    $default  reduce using rule 1 ($@1)
+
+    program  go to state 1
+    $@1      go to state 2
+
+
+State 1
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    2 program: $@1 • COMMENT mc_ident DATA_SECTION CODE_SECTION mc_endp
+
+    mc_comment  shift, and go to state 4
+
+    COMMENT  go to state 5
+
+
+State 3
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 4
+
+   29 COMMENT: mc_comment •
+
+    $default  reduce using rule 29 (COMMENT)
+
+
+State 5
+
+    2 program: $@1 COMMENT • mc_ident DATA_SECTION CODE_SECTION mc_endp
+
+    mc_ident  shift, and go to state 6
+
+
+State 6
+
+    2 program: $@1 COMMENT mc_ident • DATA_SECTION CODE_SECTION mc_endp
+
+    mc_data  shift, and go to state 7
+
+    DATA_SECTION  go to state 8
+
+
+State 7
+
+    3 DATA_SECTION: mc_data • DECLARATIONS mc_endp
+
+    mc_comment  shift, and go to state 4
+    mc_vector   shift, and go to state 9
+    mc_integ    shift, and go to state 10
+    mc_float    shift, and go to state 11
+    mc_char     shift, and go to state 12
+    mc_string   shift, and go to state 13
+    mc_const    shift, and go to state 14
+
+    mc_comment  [reduce using rule 8 (DECLARATIONS)]
+    mc_vector   [reduce using rule 8 (DECLARATIONS)]
+    mc_integ    [reduce using rule 8 (DECLARATIONS)]
+    mc_float    [reduce using rule 8 (DECLARATIONS)]
+    mc_char     [reduce using rule 8 (DECLARATIONS)]
+    mc_string   [reduce using rule 8 (DECLARATIONS)]
+    mc_const    [reduce using rule 8 (DECLARATIONS)]
+    $default    reduce using rule 8 (DECLARATIONS)
+
+    DECLARATIONS  go to state 15
+    DEC           go to state 16
+    VAR_TYPE      go to state 17
+    DEC_CONST     go to state 18
+    DEC_VECTOR    go to state 19
+    COMMENT       go to state 20
+
+
+State 8
+
+    2 program: $@1 COMMENT mc_ident DATA_SECTION • CODE_SECTION mc_endp
+
+    mc_code  shift, and go to state 21
+
+    CODE_SECTION  go to state 22
+
+
+State 9
+
+   21 DEC_VECTOR: mc_vector • mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_deuxp  shift, and go to state 23
+
+
+State 10
+
+   13 VAR_TYPE: mc_integ •
+
+    $default  reduce using rule 13 (VAR_TYPE)
+
+
+State 11
+
+   14 VAR_TYPE: mc_float •
+
+    $default  reduce using rule 14 (VAR_TYPE)
+
+
+State 12
+
+   15 VAR_TYPE: mc_char •
+
+    $default  reduce using rule 15 (VAR_TYPE)
+
+
+State 13
+
+   16 VAR_TYPE: mc_string •
+
+    $default  reduce using rule 16 (VAR_TYPE)
+
+
+State 14
+
+   19 DEC_CONST: mc_const • mc_deuxp mc_ident mc_affectation VALEURS mc_pvg
+
+    mc_deuxp  shift, and go to state 24
+
+
+State 15
+
+    3 DATA_SECTION: mc_data DECLARATIONS • mc_endp
+    5 DECLARATIONS: DECLARATIONS • DEC
+    7             | DECLARATIONS • COMMENT
+
+    mc_endp     shift, and go to state 25
+    mc_comment  shift, and go to state 4
+    mc_vector   shift, and go to state 9
+    mc_integ    shift, and go to state 10
+    mc_float    shift, and go to state 11
+    mc_char     shift, and go to state 12
+    mc_string   shift, and go to state 13
+    mc_const    shift, and go to state 14
+
+    DEC         go to state 26
+    VAR_TYPE    go to state 17
+    DEC_CONST   go to state 18
+    DEC_VECTOR  go to state 19
+    COMMENT     go to state 27
+
+
+State 16
+
+    4 DECLARATIONS: DEC •
+
+    $default  reduce using rule 4 (DECLARATIONS)
+
+
+State 17
+
+   10 DEC: VAR_TYPE • $@2 mc_deuxp LISTE_VAR mc_pvg
+
+    $default  reduce using rule 9 ($@2)
+
+    $@2  go to state 28
+
+
+State 18
+
+   11 DEC: DEC_CONST •
+
+    $default  reduce using rule 11 (DEC)
+
+
+State 19
+
+   12 DEC: DEC_VECTOR •
+
+    $default  reduce using rule 12 (DEC)
+
+
+State 20
+
+    6 DECLARATIONS: COMMENT • DECLARATIONS
+
+    mc_comment  shift, and go to state 4
+    mc_vector   shift, and go to state 9
+    mc_integ    shift, and go to state 10
+    mc_float    shift, and go to state 11
+    mc_char     shift, and go to state 12
+    mc_string   shift, and go to state 13
+    mc_const    shift, and go to state 14
+
+    mc_comment  [reduce using rule 8 (DECLARATIONS)]
+    mc_vector   [reduce using rule 8 (DECLARATIONS)]
+    mc_integ    [reduce using rule 8 (DECLARATIONS)]
+    mc_float    [reduce using rule 8 (DECLARATIONS)]
+    mc_char     [reduce using rule 8 (DECLARATIONS)]
+    mc_string   [reduce using rule 8 (DECLARATIONS)]
+    mc_const    [reduce using rule 8 (DECLARATIONS)]
+    $default    reduce using rule 8 (DECLARATIONS)
+
+    DECLARATIONS  go to state 29
+    DEC           go to state 16
+    VAR_TYPE      go to state 17
+    DEC_CONST     go to state 18
+    DEC_VECTOR    go to state 19
+    COMMENT       go to state 20
+
+
+State 21
+
+   26 CODE_SECTION: mc_code • INSTRUCTIONS mc_endp
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 38 (INSTRUCTION)
+
+    INSTRUCTIONS             go to state 35
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 37
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 22
+
+    2 program: $@1 COMMENT mc_ident DATA_SECTION CODE_SECTION • mc_endp
+
+    mc_endp  shift, and go to state 46
+
+
+State 23
+
+   21 DEC_VECTOR: mc_vector mc_deuxp • mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_ident  shift, and go to state 47
+
+
+State 24
+
+   19 DEC_CONST: mc_const mc_deuxp • mc_ident mc_affectation VALEURS mc_pvg
+
+    mc_ident  shift, and go to state 48
+
+
+State 25
+
+    3 DATA_SECTION: mc_data DECLARATIONS mc_endp •
+
+    $default  reduce using rule 3 (DATA_SECTION)
+
+
+State 26
+
+    5 DECLARATIONS: DECLARATIONS DEC •
+
+    $default  reduce using rule 5 (DECLARATIONS)
+
+
+State 27
+
+    7 DECLARATIONS: DECLARATIONS COMMENT •
+
+    $default  reduce using rule 7 (DECLARATIONS)
+
+
+State 28
+
+   10 DEC: VAR_TYPE $@2 • mc_deuxp LISTE_VAR mc_pvg
+
+    mc_deuxp  shift, and go to state 49
+
+
+State 29
+
+    5 DECLARATIONS: DECLARATIONS • DEC
+    6             | COMMENT DECLARATIONS •
+    7             | DECLARATIONS • COMMENT
+
+    mc_comment  shift, and go to state 4
+    mc_vector   shift, and go to state 9
+    mc_integ    shift, and go to state 10
+    mc_float    shift, and go to state 11
+    mc_char     shift, and go to state 12
+    mc_string   shift, and go to state 13
+    mc_const    shift, and go to state 14
+
+    mc_comment  [reduce using rule 6 (DECLARATIONS)]
+    mc_vector   [reduce using rule 6 (DECLARATIONS)]
+    mc_integ    [reduce using rule 6 (DECLARATIONS)]
+    mc_float    [reduce using rule 6 (DECLARATIONS)]
+    mc_char     [reduce using rule 6 (DECLARATIONS)]
+    mc_string   [reduce using rule 6 (DECLARATIONS)]
+    mc_const    [reduce using rule 6 (DECLARATIONS)]
+    $default    reduce using rule 6 (DECLARATIONS)
+
+    DEC         go to state 26
+    VAR_TYPE    go to state 17
+    DEC_CONST   go to state 18
+    DEC_VECTOR  go to state 19
+    COMMENT     go to state 27
+
+
+State 30
+
+   56 INSTRUCTION_LIRE: mc_read • mc_paro mc_chaine mc_deuxp mc_adresse mc_ident mc_parf mc_pvg
+
+    mc_paro  shift, and go to state 50
+
+
+State 31
+
+   57 INSTRUCTION_ECRIRE: mc_display • mc_paro mc_chaine mc_deuxp mc_ident mc_parf mc_pvg
+
+    mc_paro  shift, and go to state 51
+
+
+State 32
+
+   60 STRUCTURE_CONDITIONELLE: mc_if • mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if • mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_endp
+
+    mc_paro  shift, and go to state 52
+
+
+State 33
+
+   74 BLOC_BOUCLE: mc_for • mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_paro  shift, and go to state 53
+
+
+State 34
+
+   39 INSTRUCTION_MATH: mc_ident • mc_affectation EXPRESSION OPERATEUR EXPRESSION mc_pvg
+   40 INSTRUCTION_AFFECTATION: mc_ident • mc_affectation EXPRESSION mc_pvg
+
+    mc_affectation  shift, and go to state 54
+
+
+State 35
+
+   26 CODE_SECTION: mc_code INSTRUCTIONS • mc_endp
+   28 INSTRUCTIONS: INSTRUCTIONS • INSTRUCTION
+
+    mc_endp     shift, and go to state 55
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_endp     [reduce using rule 38 (INSTRUCTION)]
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 56
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 36
+
+   36 INSTRUCTION: COMMENT • INSTRUCTION
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 38 (INSTRUCTION)
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 57
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 37
+
+   27 INSTRUCTIONS: INSTRUCTION •
+   37 INSTRUCTION: INSTRUCTION • COMMENT
+   75 BLOC_BOUCLE: INSTRUCTION •
+
+    mc_comment  shift, and go to state 4
+
+    mc_endp     reduce using rule 27 (INSTRUCTIONS)
+    mc_endp     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_comment  [reduce using rule 27 (INSTRUCTIONS)]
+    mc_comment  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_read     reduce using rule 27 (INSTRUCTIONS)
+    mc_read     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_display  reduce using rule 27 (INSTRUCTIONS)
+    mc_display  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_if       reduce using rule 27 (INSTRUCTIONS)
+    mc_if       [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_else     reduce using rule 27 (INSTRUCTIONS)
+    mc_else     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_for      reduce using rule 27 (INSTRUCTIONS)
+    mc_for      [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_ident    reduce using rule 27 (INSTRUCTIONS)
+    mc_ident    [reduce using rule 75 (BLOC_BOUCLE)]
+    $default    reduce using rule 27 (INSTRUCTIONS)
+
+    COMMENT  go to state 58
+
+
+State 38
+
+   30 INSTRUCTION: INSTRUCTION_MATH •
+
+    $default  reduce using rule 30 (INSTRUCTION)
+
+
+State 39
+
+   31 INSTRUCTION: INSTRUCTION_AFFECTATION •
+
+    $default  reduce using rule 31 (INSTRUCTION)
+
+
+State 40
+
+   32 INSTRUCTION: INSTRUCTION_LIRE •
+
+    $default  reduce using rule 32 (INSTRUCTION)
+
+
+State 41
+
+   33 INSTRUCTION: INSTRUCTION_ECRIRE •
+
+    $default  reduce using rule 33 (INSTRUCTION)
+
+
+State 42
+
+   34 INSTRUCTION: INSTRUCTION_CONDITION •
+   59 INSTRUCTION_CONDITION: INSTRUCTION_CONDITION • STRUCTURE_CONDITIONELLE
+
+    mc_if  shift, and go to state 32
+
+    mc_if     [reduce using rule 34 (INSTRUCTION)]
+    $default  reduce using rule 34 (INSTRUCTION)
+
+    STRUCTURE_CONDITIONELLE  go to state 59
+
+
+State 43
+
+   58 INSTRUCTION_CONDITION: STRUCTURE_CONDITIONELLE •
+
+    $default  reduce using rule 58 (INSTRUCTION_CONDITION)
+
+
+State 44
+
+   35 INSTRUCTION: INSTRUCTION_BOUCLE •
+   72 INSTRUCTION_BOUCLE: INSTRUCTION_BOUCLE • BLOC_BOUCLE
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_endp     reduce using rule 35 (INSTRUCTION)
+    mc_endp     [reduce using rule 38 (INSTRUCTION)]
+    mc_comment  [reduce using rule 35 (INSTRUCTION)]
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 35 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 35 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 35 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_else     reduce using rule 35 (INSTRUCTION)
+    mc_else     [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 35 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 35 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 35 (INSTRUCTION)
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 60
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 61
+
+
+State 45
+
+   73 INSTRUCTION_BOUCLE: BLOC_BOUCLE •
+
+    $default  reduce using rule 73 (INSTRUCTION_BOUCLE)
+
+
+State 46
+
+    2 program: $@1 COMMENT mc_ident DATA_SECTION CODE_SECTION mc_endp •
+
+    $default  reduce using rule 2 (program)
+
+
+State 47
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident • $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    $default  reduce using rule 20 ($@3)
+
+    $@3  go to state 62
+
+
+State 48
+
+   19 DEC_CONST: mc_const mc_deuxp mc_ident • mc_affectation VALEURS mc_pvg
+
+    mc_affectation  shift, and go to state 63
+
+
+State 49
+
+   10 DEC: VAR_TYPE $@2 mc_deuxp • LISTE_VAR mc_pvg
+
+    mc_ident  shift, and go to state 64
+
+    LISTE_VAR  go to state 65
+
+
+State 50
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro • mc_chaine mc_deuxp mc_adresse mc_ident mc_parf mc_pvg
+
+    mc_chaine  shift, and go to state 66
+
+
+State 51
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro • mc_chaine mc_deuxp mc_ident mc_parf mc_pvg
+
+    mc_chaine  shift, and go to state 67
+
+
+State 52
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro • CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro • CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_endp
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 74
+    TERME       go to state 75
+    FACTEUR     go to state 76
+    CONDITION   go to state 77
+
+
+State 53
+
+   74 BLOC_BOUCLE: mc_for mc_paro • mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_ident  shift, and go to state 78
+
+
+State 54
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation • EXPRESSION OPERATEUR EXPRESSION mc_pvg
+   40 INSTRUCTION_AFFECTATION: mc_ident mc_affectation • EXPRESSION mc_pvg
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 79
+    TERME       go to state 75
+    FACTEUR     go to state 76
+
+
+State 55
+
+   26 CODE_SECTION: mc_code INSTRUCTIONS mc_endp •
+
+    $default  reduce using rule 26 (CODE_SECTION)
+
+
+State 56
+
+   28 INSTRUCTIONS: INSTRUCTIONS INSTRUCTION •
+   37 INSTRUCTION: INSTRUCTION • COMMENT
+   75 BLOC_BOUCLE: INSTRUCTION •
+
+    mc_comment  shift, and go to state 4
+
+    mc_endp     reduce using rule 28 (INSTRUCTIONS)
+    mc_endp     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_comment  [reduce using rule 28 (INSTRUCTIONS)]
+    mc_comment  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_read     reduce using rule 28 (INSTRUCTIONS)
+    mc_read     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_display  reduce using rule 28 (INSTRUCTIONS)
+    mc_display  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_if       reduce using rule 28 (INSTRUCTIONS)
+    mc_if       [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_else     reduce using rule 28 (INSTRUCTIONS)
+    mc_else     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_for      reduce using rule 28 (INSTRUCTIONS)
+    mc_for      [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_ident    reduce using rule 28 (INSTRUCTIONS)
+    mc_ident    [reduce using rule 75 (BLOC_BOUCLE)]
+    $default    reduce using rule 28 (INSTRUCTIONS)
+
+    COMMENT  go to state 58
+
+
+State 57
+
+   36 INSTRUCTION: COMMENT INSTRUCTION •
+   37            | INSTRUCTION • COMMENT
+   75 BLOC_BOUCLE: INSTRUCTION •
+
+    mc_comment  shift, and go to state 4
+
+    mc_endp     reduce using rule 36 (INSTRUCTION)
+    mc_endp     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_comment  [reduce using rule 36 (INSTRUCTION)]
+    mc_comment  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_read     reduce using rule 36 (INSTRUCTION)
+    mc_read     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_display  reduce using rule 36 (INSTRUCTION)
+    mc_display  [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_if       reduce using rule 36 (INSTRUCTION)
+    mc_if       [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_else     reduce using rule 36 (INSTRUCTION)
+    mc_else     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_for      reduce using rule 36 (INSTRUCTION)
+    mc_for      [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_ident    reduce using rule 36 (INSTRUCTION)
+    mc_ident    [reduce using rule 75 (BLOC_BOUCLE)]
+    $default    reduce using rule 36 (INSTRUCTION)
+
+    COMMENT  go to state 58
+
+
+State 58
+
+   37 INSTRUCTION: INSTRUCTION COMMENT •
+
+    $default  reduce using rule 37 (INSTRUCTION)
+
+
+State 59
+
+   59 INSTRUCTION_CONDITION: INSTRUCTION_CONDITION STRUCTURE_CONDITIONELLE •
+
+    $default  reduce using rule 59 (INSTRUCTION_CONDITION)
+
+
+State 60
+
+   37 INSTRUCTION: INSTRUCTION • COMMENT
+   75 BLOC_BOUCLE: INSTRUCTION •
+
+    mc_comment  shift, and go to state 4
+
+    mc_comment  [reduce using rule 75 (BLOC_BOUCLE)]
+    $default    reduce using rule 75 (BLOC_BOUCLE)
+
+    COMMENT  go to state 58
+
+
+State 61
+
+   72 INSTRUCTION_BOUCLE: INSTRUCTION_BOUCLE BLOC_BOUCLE •
+   73                   | BLOC_BOUCLE •
+
+    mc_endp     reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_endp     [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_comment  reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_comment  [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_read     reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_read     [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_display  reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_display  [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_if       reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_if       [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_else     reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_else     [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_for      reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_for      [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    mc_ident    reduce using rule 72 (INSTRUCTION_BOUCLE)
+    mc_ident    [reduce using rule 73 (INSTRUCTION_BOUCLE)]
+    $default    reduce using rule 72 (INSTRUCTION_BOUCLE)
+
+
+State 62
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 • mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_crocheto  shift, and go to state 80
+
+
+State 63
+
+   19 DEC_CONST: mc_const mc_deuxp mc_ident mc_affectation • VALEURS mc_pvg
+
+    INT_CONST      shift, and go to state 81
+    mc_cst         shift, and go to state 82
+    mc_chaine      shift, and go to state 83
+    mc_charactere  shift, and go to state 84
+
+    VALEURS  go to state 85
+
+
+State 64
+
+   17 LISTE_VAR: mc_ident •
+   18          | mc_ident • mc_separateur LISTE_VAR
+
+    mc_separateur  shift, and go to state 86
+
+    $default  reduce using rule 17 (LISTE_VAR)
+
+
+State 65
+
+   10 DEC: VAR_TYPE $@2 mc_deuxp LISTE_VAR • mc_pvg
+
+    mc_pvg  shift, and go to state 87
+
+
+State 66
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine • mc_deuxp mc_adresse mc_ident mc_parf mc_pvg
+
+    mc_deuxp  shift, and go to state 88
+
+
+State 67
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine • mc_deuxp mc_ident mc_parf mc_pvg
+
+    mc_deuxp  shift, and go to state 89
+
+
+State 68
+
+   54 FACTEUR: mc_paro • EXPRESSION mc_parf
+   55        | mc_paro • mc_moins FACTEUR mc_parf
+
+    mc_moins       shift, and go to state 90
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 91
+    TERME       go to state 75
+    FACTEUR     go to state 76
+
+
+State 69
+
+   50 FACTEUR: INT_CONST •
+
+    $default  reduce using rule 50 (FACTEUR)
+
+
+State 70
+
+   49 FACTEUR: mc_ident •
+
+    $default  reduce using rule 49 (FACTEUR)
+
+
+State 71
+
+   53 FACTEUR: mc_cst •
+
+    $default  reduce using rule 53 (FACTEUR)
+
+
+State 72
+
+   52 FACTEUR: mc_chaine •
+
+    $default  reduce using rule 52 (FACTEUR)
+
+
+State 73
+
+   51 FACTEUR: mc_charactere •
+
+    $default  reduce using rule 51 (FACTEUR)
+
+
+State 74
+
+   41 EXPRESSION: EXPRESSION • OPERATEUR TERME
+   64 CONDITION: EXPRESSION • OPERATEUR_COMPAR EXPRESSION
+   65          | EXPRESSION •
+
+    mc_sup    shift, and go to state 92
+    mc_inf    shift, and go to state 93
+    mc_supeg  shift, and go to state 94
+    mc_infeg  shift, and go to state 95
+    mc_egal   shift, and go to state 96
+    mc_diff   shift, and go to state 97
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    $default  reduce using rule 65 (CONDITION)
+
+    OPERATEUR         go to state 102
+    OPERATEUR_COMPAR  go to state 103
+
+
+State 75
+
+   42 EXPRESSION: TERME •
+   48 TERME: TERME • OPERATEUR FACTEUR
+
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    mc_plus   [reduce using rule 42 (EXPRESSION)]
+    mc_moins  [reduce using rule 42 (EXPRESSION)]
+    mc_mult   [reduce using rule 42 (EXPRESSION)]
+    mc_div    [reduce using rule 42 (EXPRESSION)]
+    $default  reduce using rule 42 (EXPRESSION)
+
+    OPERATEUR  go to state 104
+
+
+State 76
+
+   47 TERME: FACTEUR •
+
+    $default  reduce using rule 47 (TERME)
+
+
+State 77
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION • mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro CONDITION • mc_parf mc_deuxp INSTRUCTIONS mc_endp
+   62 CONDITION: CONDITION • mc_and CONDITION
+   63          | CONDITION • mc_or CONDITION
+
+    mc_or    shift, and go to state 105
+    mc_and   shift, and go to state 106
+    mc_parf  shift, and go to state 107
+
+
+State 78
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident • mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_deuxp  shift, and go to state 108
+
+
+State 79
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION • OPERATEUR EXPRESSION mc_pvg
+   40 INSTRUCTION_AFFECTATION: mc_ident mc_affectation EXPRESSION • mc_pvg
+   41 EXPRESSION: EXPRESSION • OPERATEUR TERME
+
+    mc_pvg    shift, and go to state 109
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    OPERATEUR  go to state 110
+
+
+State 80
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto • mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_cst  shift, and go to state 111
+
+
+State 81
+
+   24 VALEURS: INT_CONST •
+
+    $default  reduce using rule 24 (VALEURS)
+
+
+State 82
+
+   25 VALEURS: mc_cst •
+
+    $default  reduce using rule 25 (VALEURS)
+
+
+State 83
+
+   23 VALEURS: mc_chaine •
+
+    $default  reduce using rule 23 (VALEURS)
+
+
+State 84
+
+   22 VALEURS: mc_charactere •
+
+    $default  reduce using rule 22 (VALEURS)
+
+
+State 85
+
+   19 DEC_CONST: mc_const mc_deuxp mc_ident mc_affectation VALEURS • mc_pvg
+
+    mc_pvg  shift, and go to state 112
+
+
+State 86
+
+   18 LISTE_VAR: mc_ident mc_separateur • LISTE_VAR
+
+    mc_ident  shift, and go to state 64
+
+    LISTE_VAR  go to state 113
+
+
+State 87
+
+   10 DEC: VAR_TYPE $@2 mc_deuxp LISTE_VAR mc_pvg •
+
+    $default  reduce using rule 10 (DEC)
+
+
+State 88
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp • mc_adresse mc_ident mc_parf mc_pvg
+
+    mc_adresse  shift, and go to state 114
+
+
+State 89
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine mc_deuxp • mc_ident mc_parf mc_pvg
+
+    mc_ident  shift, and go to state 115
+
+
+State 90
+
+   55 FACTEUR: mc_paro mc_moins • FACTEUR mc_parf
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    FACTEUR  go to state 116
+
+
+State 91
+
+   41 EXPRESSION: EXPRESSION • OPERATEUR TERME
+   54 FACTEUR: mc_paro EXPRESSION • mc_parf
+
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+    mc_parf   shift, and go to state 117
+
+    OPERATEUR  go to state 102
+
+
+State 92
+
+   66 OPERATEUR_COMPAR: mc_sup •
+
+    $default  reduce using rule 66 (OPERATEUR_COMPAR)
+
+
+State 93
+
+   67 OPERATEUR_COMPAR: mc_inf •
+
+    $default  reduce using rule 67 (OPERATEUR_COMPAR)
+
+
+State 94
+
+   68 OPERATEUR_COMPAR: mc_supeg •
+
+    $default  reduce using rule 68 (OPERATEUR_COMPAR)
+
+
+State 95
+
+   69 OPERATEUR_COMPAR: mc_infeg •
+
+    $default  reduce using rule 69 (OPERATEUR_COMPAR)
+
+
+State 96
+
+   70 OPERATEUR_COMPAR: mc_egal •
+
+    $default  reduce using rule 70 (OPERATEUR_COMPAR)
+
+
+State 97
+
+   71 OPERATEUR_COMPAR: mc_diff •
+
+    $default  reduce using rule 71 (OPERATEUR_COMPAR)
+
+
+State 98
+
+   43 OPERATEUR: mc_plus •
+
+    $default  reduce using rule 43 (OPERATEUR)
+
+
+State 99
+
+   44 OPERATEUR: mc_moins •
+
+    $default  reduce using rule 44 (OPERATEUR)
+
+
+State 100
+
+   45 OPERATEUR: mc_mult •
+
+    $default  reduce using rule 45 (OPERATEUR)
+
+
+State 101
+
+   46 OPERATEUR: mc_div •
+
+    $default  reduce using rule 46 (OPERATEUR)
+
+
+State 102
+
+   41 EXPRESSION: EXPRESSION OPERATEUR • TERME
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    TERME    go to state 118
+    FACTEUR  go to state 76
+
+
+State 103
+
+   64 CONDITION: EXPRESSION OPERATEUR_COMPAR • EXPRESSION
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 119
+    TERME       go to state 75
+    FACTEUR     go to state 76
+
+
+State 104
+
+   48 TERME: TERME OPERATEUR • FACTEUR
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    FACTEUR  go to state 120
+
+
+State 105
+
+   63 CONDITION: CONDITION mc_or • CONDITION
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 74
+    TERME       go to state 75
+    FACTEUR     go to state 76
+    CONDITION   go to state 121
+
+
+State 106
+
+   62 CONDITION: CONDITION mc_and • CONDITION
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 74
+    TERME       go to state 75
+    FACTEUR     go to state 76
+    CONDITION   go to state 122
+
+
+State 107
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf • mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro CONDITION mc_parf • mc_deuxp INSTRUCTIONS mc_endp
+
+    mc_deuxp  shift, and go to state 123
+
+
+State 108
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp • mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_cst  shift, and go to state 124
+
+
+State 109
+
+   40 INSTRUCTION_AFFECTATION: mc_ident mc_affectation EXPRESSION mc_pvg •
+
+    $default  reduce using rule 40 (INSTRUCTION_AFFECTATION)
+
+
+State 110
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION OPERATEUR • EXPRESSION mc_pvg
+   41 EXPRESSION: EXPRESSION OPERATEUR • TERME
+
+    mc_paro        shift, and go to state 68
+    INT_CONST      shift, and go to state 69
+    mc_ident       shift, and go to state 70
+    mc_cst         shift, and go to state 71
+    mc_chaine      shift, and go to state 72
+    mc_charactere  shift, and go to state 73
+
+    EXPRESSION  go to state 125
+    TERME       go to state 126
+    FACTEUR     go to state 76
+
+
+State 111
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst • mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_vg  shift, and go to state 127
+
+
+State 112
+
+   19 DEC_CONST: mc_const mc_deuxp mc_ident mc_affectation VALEURS mc_pvg •
+
+    $default  reduce using rule 19 (DEC_CONST)
+
+
+State 113
+
+   18 LISTE_VAR: mc_ident mc_separateur LISTE_VAR •
+
+    $default  reduce using rule 18 (LISTE_VAR)
+
+
+State 114
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp mc_adresse • mc_ident mc_parf mc_pvg
+
+    mc_ident  shift, and go to state 128
+
+
+State 115
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine mc_deuxp mc_ident • mc_parf mc_pvg
+
+    mc_parf  shift, and go to state 129
+
+
+State 116
+
+   55 FACTEUR: mc_paro mc_moins FACTEUR • mc_parf
+
+    mc_parf  shift, and go to state 130
+
+
+State 117
+
+   54 FACTEUR: mc_paro EXPRESSION mc_parf •
+
+    $default  reduce using rule 54 (FACTEUR)
+
+
+State 118
+
+   41 EXPRESSION: EXPRESSION OPERATEUR TERME •
+   48 TERME: TERME • OPERATEUR FACTEUR
+
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    mc_plus   [reduce using rule 41 (EXPRESSION)]
+    mc_moins  [reduce using rule 41 (EXPRESSION)]
+    mc_mult   [reduce using rule 41 (EXPRESSION)]
+    mc_div    [reduce using rule 41 (EXPRESSION)]
+    $default  reduce using rule 41 (EXPRESSION)
+
+    OPERATEUR  go to state 104
+
+
+State 119
+
+   41 EXPRESSION: EXPRESSION • OPERATEUR TERME
+   64 CONDITION: EXPRESSION OPERATEUR_COMPAR EXPRESSION •
+
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    $default  reduce using rule 64 (CONDITION)
+
+    OPERATEUR  go to state 102
+
+
+State 120
+
+   48 TERME: TERME OPERATEUR FACTEUR •
+
+    $default  reduce using rule 48 (TERME)
+
+
+State 121
+
+   62 CONDITION: CONDITION • mc_and CONDITION
+   63          | CONDITION • mc_or CONDITION
+   63          | CONDITION mc_or CONDITION •
+
+    mc_or   shift, and go to state 105
+    mc_and  shift, and go to state 106
+
+    mc_or     [reduce using rule 63 (CONDITION)]
+    mc_and    [reduce using rule 63 (CONDITION)]
+    $default  reduce using rule 63 (CONDITION)
+
+
+State 122
+
+   62 CONDITION: CONDITION • mc_and CONDITION
+   62          | CONDITION mc_and CONDITION •
+   63          | CONDITION • mc_or CONDITION
+
+    mc_or   shift, and go to state 105
+    mc_and  shift, and go to state 106
+
+    mc_or     [reduce using rule 62 (CONDITION)]
+    mc_and    [reduce using rule 62 (CONDITION)]
+    $default  reduce using rule 62 (CONDITION)
+
+
+State 123
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp • INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro CONDITION mc_parf mc_deuxp • INSTRUCTIONS mc_endp
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 38 (INSTRUCTION)
+
+    INSTRUCTIONS             go to state 131
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 37
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 124
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst • mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_deuxp  shift, and go to state 132
+
+
+State 125
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION OPERATEUR EXPRESSION • mc_pvg
+   41 EXPRESSION: EXPRESSION • OPERATEUR TERME
+
+    mc_pvg    shift, and go to state 133
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    OPERATEUR  go to state 102
+
+
+State 126
+
+   41 EXPRESSION: EXPRESSION OPERATEUR TERME •
+   42           | TERME •
+   48 TERME: TERME • OPERATEUR FACTEUR
+
+    mc_plus   shift, and go to state 98
+    mc_moins  shift, and go to state 99
+    mc_mult   shift, and go to state 100
+    mc_div    shift, and go to state 101
+
+    mc_pvg    reduce using rule 41 (EXPRESSION)
+    mc_pvg    [reduce using rule 42 (EXPRESSION)]
+    mc_plus   [reduce using rule 41 (EXPRESSION)]
+    mc_plus   [reduce using rule 42 (EXPRESSION)]
+    mc_moins  [reduce using rule 41 (EXPRESSION)]
+    mc_moins  [reduce using rule 42 (EXPRESSION)]
+    mc_mult   [reduce using rule 41 (EXPRESSION)]
+    mc_mult   [reduce using rule 42 (EXPRESSION)]
+    mc_div    [reduce using rule 41 (EXPRESSION)]
+    mc_div    [reduce using rule 42 (EXPRESSION)]
+    $default  reduce using rule 41 (EXPRESSION)
+
+    OPERATEUR  go to state 104
+
+
+State 127
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg • mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_cst  shift, and go to state 134
+
+
+State 128
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp mc_adresse mc_ident • mc_parf mc_pvg
+
+    mc_parf  shift, and go to state 135
+
+
+State 129
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine mc_deuxp mc_ident mc_parf • mc_pvg
+
+    mc_pvg  shift, and go to state 136
+
+
+State 130
+
+   55 FACTEUR: mc_paro mc_moins FACTEUR mc_parf •
+
+    $default  reduce using rule 55 (FACTEUR)
+
+
+State 131
+
+   28 INSTRUCTIONS: INSTRUCTIONS • INSTRUCTION
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS • mc_else mc_deuxp INSTRUCTIONS mc_endp
+   61                        | mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS • mc_endp
+
+    mc_endp     shift, and go to state 137
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_else     shift, and go to state 138
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_endp     [reduce using rule 38 (INSTRUCTION)]
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_else     [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 56
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 132
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp • mc_ident mc_parf INSTRUCTION mc_endp
+
+    mc_ident  shift, and go to state 139
+
+
+State 133
+
+   39 INSTRUCTION_MATH: mc_ident mc_affectation EXPRESSION OPERATEUR EXPRESSION mc_pvg •
+
+    $default  reduce using rule 39 (INSTRUCTION_MATH)
+
+
+State 134
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst • mc_deuxp VAR_TYPE mc_crochetf mc_pvg
+
+    mc_deuxp  shift, and go to state 140
+
+
+State 135
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp mc_adresse mc_ident mc_parf • mc_pvg
+
+    mc_pvg  shift, and go to state 141
+
+
+State 136
+
+   57 INSTRUCTION_ECRIRE: mc_display mc_paro mc_chaine mc_deuxp mc_ident mc_parf mc_pvg •
+
+    $default  reduce using rule 57 (INSTRUCTION_ECRIRE)
+
+
+State 137
+
+   61 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_endp •
+
+    $default  reduce using rule 61 (STRUCTURE_CONDITIONELLE)
+
+
+State 138
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else • mc_deuxp INSTRUCTIONS mc_endp
+
+    mc_deuxp  shift, and go to state 142
+
+
+State 139
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident • mc_parf INSTRUCTION mc_endp
+
+    mc_parf  shift, and go to state 143
+
+
+State 140
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp • VAR_TYPE mc_crochetf mc_pvg
+
+    mc_integ   shift, and go to state 10
+    mc_float   shift, and go to state 11
+    mc_char    shift, and go to state 12
+    mc_string  shift, and go to state 13
+
+    VAR_TYPE  go to state 144
+
+
+State 141
+
+   56 INSTRUCTION_LIRE: mc_read mc_paro mc_chaine mc_deuxp mc_adresse mc_ident mc_parf mc_pvg •
+
+    $default  reduce using rule 56 (INSTRUCTION_LIRE)
+
+
+State 142
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp • INSTRUCTIONS mc_endp
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 38 (INSTRUCTION)
+
+    INSTRUCTIONS             go to state 145
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 37
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 143
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf • INSTRUCTION mc_endp
+
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+    $default    reduce using rule 38 (INSTRUCTION)
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 146
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 144
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE • mc_crochetf mc_pvg
+
+    mc_crochetf  shift, and go to state 147
+
+
+State 145
+
+   28 INSTRUCTIONS: INSTRUCTIONS • INSTRUCTION
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS • mc_endp
+
+    mc_endp     shift, and go to state 148
+    mc_comment  shift, and go to state 4
+    mc_read     shift, and go to state 30
+    mc_display  shift, and go to state 31
+    mc_if       shift, and go to state 32
+    mc_for      shift, and go to state 33
+    mc_ident    shift, and go to state 34
+
+    mc_endp     [reduce using rule 38 (INSTRUCTION)]
+    mc_comment  [reduce using rule 38 (INSTRUCTION)]
+    mc_read     [reduce using rule 38 (INSTRUCTION)]
+    mc_display  [reduce using rule 38 (INSTRUCTION)]
+    mc_if       [reduce using rule 38 (INSTRUCTION)]
+    mc_for      [reduce using rule 38 (INSTRUCTION)]
+    mc_ident    [reduce using rule 38 (INSTRUCTION)]
+
+    COMMENT                  go to state 36
+    INSTRUCTION              go to state 56
+    INSTRUCTION_MATH         go to state 38
+    INSTRUCTION_AFFECTATION  go to state 39
+    INSTRUCTION_LIRE         go to state 40
+    INSTRUCTION_ECRIRE       go to state 41
+    INSTRUCTION_CONDITION    go to state 42
+    STRUCTURE_CONDITIONELLE  go to state 43
+    INSTRUCTION_BOUCLE       go to state 44
+    BLOC_BOUCLE              go to state 45
+
+
+State 146
+
+   37 INSTRUCTION: INSTRUCTION • COMMENT
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION • mc_endp
+   75            | INSTRUCTION •
+
+    mc_endp     shift, and go to state 149
+    mc_comment  shift, and go to state 4
+
+    mc_endp     [reduce using rule 75 (BLOC_BOUCLE)]
+    mc_comment  [reduce using rule 75 (BLOC_BOUCLE)]
+    $default    reduce using rule 75 (BLOC_BOUCLE)
+
+    COMMENT  go to state 58
+
+
+State 147
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf • mc_pvg
+
+    mc_pvg  shift, and go to state 150
+
+
+State 148
+
+   60 STRUCTURE_CONDITIONELLE: mc_if mc_paro CONDITION mc_parf mc_deuxp INSTRUCTIONS mc_else mc_deuxp INSTRUCTIONS mc_endp •
+
+    $default  reduce using rule 60 (STRUCTURE_CONDITIONELLE)
+
+
+State 149
+
+   74 BLOC_BOUCLE: mc_for mc_paro mc_ident mc_deuxp mc_cst mc_deuxp mc_ident mc_parf INSTRUCTION mc_endp •
+
+    $default  reduce using rule 74 (BLOC_BOUCLE)
+
+
+State 150
+
+   21 DEC_VECTOR: mc_vector mc_deuxp mc_ident $@3 mc_crocheto mc_cst mc_vg mc_cst mc_deuxp VAR_TYPE mc_crochetf mc_pvg •
+
+    $default  reduce using rule 21 (DEC_VECTOR)

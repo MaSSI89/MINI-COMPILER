@@ -1,0 +1,22 @@
+§ Déclaration d’une variable simple
+programme
+
+DATA
+
+§Déclaration d’une variable simple
+INTEGER:a | b| c;
+FLOAT: b;
+CONST: ac=5;
+
+VECTOR: nom1[5,10: INTEGER];
+
+END
+
+CODE
+a = 7;
+c = 9;
+b = 89;
+END
+END
+
+
